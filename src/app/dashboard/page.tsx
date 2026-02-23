@@ -319,7 +319,7 @@ export default async function DashboardPage() {
             </p>
           ) : (
             <div className="space-y-2">
-              {usageChart.map((item) => (
+              {usageChart.map((item: any) => (
                 <div key={item.materialId}>
                   <div className="flex items-baseline justify-between text-[11px] text-slate-600">
                     <span className="font-medium text-slate-800">
