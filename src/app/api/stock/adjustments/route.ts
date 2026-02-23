@@ -4,6 +4,13 @@ import { requireUser } from "@/lib/auth";
 
 type AdjustmentKind = "ADJUSTMENT" | "WASTE" | "RETURN";
 
+type AdjustmentTransactionClient = Parameters<typeof prisma.$transaction>[0] extends (
+  tx: infer T,
+  ...args: unknown[]
+) => unknown
+  ? T
+  : never;
+
 export async function POST(request: Request) {
   const user = await requireUser(["ADMIN"]);
   if (!user) {
@@ -64,7 +71,7 @@ export async function POST(request: Request) {
   const txType: AdjustmentKind =
     kind === "WASTE" ? "WASTE" : kind === "RETURN" ? "RETURN" : "ADJUSTMENT";
 
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx: AdjustmentTransactionClient) => {
     await tx.material.update({
       where: { id: material.id },
       data: {
