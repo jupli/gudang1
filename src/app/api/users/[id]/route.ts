@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { UserRole } from "@prisma/client";
 
 type Params = {
   params: Promise<{
@@ -33,9 +32,9 @@ export async function PATCH(request: Request, { params }: Params) {
     typeof body.role === "string" ? String(body.role).toUpperCase() : user.role;
 
   if (
-    role !== UserRole.ADMIN &&
-    role !== UserRole.WAREHOUSE &&
-    role !== UserRole.HEAD_CHEF
+    role !== "ADMIN" &&
+    role !== "WAREHOUSE" &&
+    role !== "HEAD_CHEF"
   ) {
     return NextResponse.json(
       { error: "Role tidak valid" },
@@ -47,7 +46,7 @@ export async function PATCH(request: Request, { params }: Params) {
     where: { id: user.id },
     data: {
       isActive,
-      role,
+      role: role as typeof user.role,
     },
     select: {
       id: true,
