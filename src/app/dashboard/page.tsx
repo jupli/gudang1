@@ -85,18 +85,18 @@ export default async function DashboardPage() {
   ) as Record<string, number>;
 
   const usageChart = materials
-    .map((m) => ({
+    .map((m: any) => ({
       materialId: m.id,
       name: m.name,
       unit: m.unit,
       used: usageMap[m.id] ?? 0,
     }))
-    .filter((m) => m.used > 0)
-    .sort((a, b) => b.used - a.used)
+    .filter((m: any) => m.used > 0)
+    .sort((a: any, b: any) => b.used - a.used)
     .slice(0, 6);
 
   const maxUsed = usageChart.reduce(
-    (max, m) => (m.used > max ? m.used : max),
+    (max: number, m: any) => (m.used > max ? m.used : max),
     0,
   );
 
