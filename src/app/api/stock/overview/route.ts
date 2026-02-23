@@ -116,7 +116,7 @@ export async function GET() {
   const wasteMap = toMap(recentWaste);
   const returnMap = toMap(recentReturns);
 
-  const usageChart = materials.map((m) => ({
+  const usageChart = materials.map((m: (typeof materials)[number]) => ({
     materialId: m.id,
     name: m.name,
     used: usageMap[m.id] ?? 0,
