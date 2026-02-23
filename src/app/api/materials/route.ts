@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { MaterialCategory } from "@/generated/prisma/enums";
+import { MaterialCategory } from "@prisma/client";
 
 export async function GET() {
   const user = await requireUser();

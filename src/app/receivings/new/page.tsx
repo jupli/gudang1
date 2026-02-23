@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MaterialCategory } from "@/generated/prisma/enums";
+import { MaterialCategory } from "@prisma/client";
 
 type Material = {
   id: string;

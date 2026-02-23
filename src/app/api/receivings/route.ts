@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { ReceivingItemStatus, StockTransactionType } from "@/generated/prisma/enums";
-import type { Prisma } from "@/generated/prisma/client";
+import { ReceivingItemStatus, StockTransactionType, type Prisma } from "@prisma/client";
 
 function normalizeStatus(raw: string): ReceivingItemStatus {
   const value = raw.toUpperCase();

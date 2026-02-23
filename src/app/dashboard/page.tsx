@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { MaterialCategory, StockTransactionType } from "@/generated/prisma/enums";
+import { MaterialCategory, StockTransactionType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { LogoutButton } from "@/components/logout-button";
 

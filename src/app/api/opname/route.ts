@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { StockTransactionType } from "@/generated/prisma/enums";
-import type { Prisma } from "@/generated/prisma/client";
+import { StockTransactionType, type Prisma } from "@prisma/client";
 
 type OpnameItemInput = {
   materialId: string;
