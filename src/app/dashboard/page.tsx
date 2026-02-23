@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { MaterialCategory, StockTransactionType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { LogoutButton } from "@/components/logout-button";
 
@@ -36,7 +35,7 @@ export default async function DashboardPage() {
     prisma.stockTransaction.groupBy({
       by: ["materialId"],
       where: {
-        type: StockTransactionType.OUT,
+        type: "OUT",
         createdAt: {
           gte: thirtyDaysAgo,
         },
@@ -48,7 +47,7 @@ export default async function DashboardPage() {
   const totalDry = materials
     .filter(
       (m: (typeof materials)[number]) =>
-        m.category === MaterialCategory.DRY,
+        m.category === "DRY",
     )
     .reduce(
       (sum: number, m: (typeof materials)[number]) =>
@@ -59,7 +58,7 @@ export default async function DashboardPage() {
   const totalWet = materials
     .filter(
       (m: (typeof materials)[number]) =>
-        m.category === MaterialCategory.WET,
+        m.category === "WET",
     )
     .reduce(
       (sum: number, m: (typeof materials)[number]) =>

@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import type { UserRole } from "@prisma/client";
 
 const AUTH_COOKIE = "auth_token";
+
+export type UserRole = "ADMIN" | "WAREHOUSE" | "HEAD_CHEF";
 
 type AuthPayload = {
   userId: string;

@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
-import { UserRole } from "@prisma/client";
 
 export async function GET() {
   const user = await requireUser(["ADMIN"]);
@@ -46,9 +45,9 @@ export async function POST(request: Request) {
   }
 
   if (
-    role !== UserRole.ADMIN &&
-    role !== UserRole.WAREHOUSE &&
-    role !== UserRole.HEAD_CHEF
+    role !== "ADMIN" &&
+    role !== "WAREHOUSE" &&
+    role !== "HEAD_CHEF"
   ) {
     return NextResponse.json(
       { error: "Role tidak valid" },
@@ -74,7 +73,7 @@ export async function POST(request: Request) {
       name,
       email,
       passwordHash,
-      role,
+      role: role as any,
       isActive: true,
     },
     select: {
