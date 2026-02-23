@@ -15,6 +15,13 @@ function normalizeStatus(raw: string): ReceivingItemStatusValue {
   return "REJECTED";
 }
 
+type ReceivingTransactionClient = Parameters<typeof prisma.$transaction>[0] extends (
+  tx: infer T,
+  ...args: unknown[]
+) => unknown
+  ? T
+  : never;
+
 async function generateReceivingNumber() {
   const today = new Date();
   const y = today.getFullYear();
@@ -89,7 +96,7 @@ export async function POST(request: Request) {
   const number = await generateReceivingNumber();
 
   const result = await prisma.$transaction(
-    async (tx) => {
+    async (tx: ReceivingTransactionClient) => {
       const receiving = await tx.receiving.create({
         data: {
           number,
