@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MaterialCategory } from "@prisma/client";
+
+type MaterialCategoryValue = "DRY" | "WET";
 
 type Material = {
   id: string;
   name: string;
-  category: keyof typeof MaterialCategory;
+  category: MaterialCategoryValue;
   unit: string;
   minStock: number;
   mainSupplier: string | null;
@@ -17,7 +18,7 @@ type Material = {
 
 type FormState = {
   name: string;
-  category: keyof typeof MaterialCategory | "";
+  category: MaterialCategoryValue | "";
   unit: string;
   minStock: string;
   mainSupplier: string;
@@ -210,14 +211,14 @@ export default function MaterialsPage() {
                   onChange={(e) =>
                     setForm((f) => ({
                       ...f,
-                      category: e.target.value as keyof typeof MaterialCategory,
+                      category: e.target.value as MaterialCategoryValue,
                     }))
                   }
                   required
                 >
                   <option value="">Pilih</option>
-                  <option value={MaterialCategory.DRY}>Bahan Kering</option>
-                  <option value={MaterialCategory.WET}>Bahan Basah</option>
+                  <option value="DRY">Bahan Kering</option>
+                  <option value="WET">Bahan Basah</option>
                 </select>
               </div>
               <div>

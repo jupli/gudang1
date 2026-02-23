@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { UserRole } from "@prisma/client";
+
+type UserRoleValue = "ADMIN" | "WAREHOUSE" | "HEAD_CHEF";
 
 type UserRow = {
   id: string;
   name: string;
   email: string;
-  role: keyof typeof UserRole;
+  role: UserRoleValue;
   isActive: boolean;
   createdAt: string;
 };
@@ -20,7 +21,7 @@ export default function UsersPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<keyof typeof UserRole>("WAREHOUSE");
+  const [role, setRole] = useState<UserRoleValue>("WAREHOUSE");
   const [saving, setSaving] = useState(false);
 
   async function loadUsers() {
@@ -34,14 +35,7 @@ export default function UsersPage() {
           | null;
         throw new Error(errorPayload?.error ?? "Gagal memuat data user");
       }
-      const data = (await res.json()) as {
-        id: string;
-        name: string;
-        email: string;
-        role: keyof typeof UserRole;
-        isActive: boolean;
-        createdAt: string;
-      }[];
+      const data = (await res.json()) as UserRow[];
       setUsers(
         data.map((u) => ({
           id: u.id,
@@ -252,9 +246,7 @@ export default function UsersPage() {
               <select
                 className="w-full rounded-md border border-slate-300 px-2 py-1 text-sm"
                 value={role}
-                onChange={(e) =>
-                  setRole(e.target.value as keyof typeof UserRole)
-                }
+                onChange={(e) => setRole(e.target.value as UserRoleValue)}
               >
                 <option value="ADMIN">Admin</option>
                 <option value="WAREHOUSE">Staff Gudang</option>

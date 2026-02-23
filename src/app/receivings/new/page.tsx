@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MaterialCategory } from "@prisma/client";
+
+type MaterialCategoryValue = "DRY" | "WET";
 
 type Material = {
   id: string;
   name: string;
   unit: string;
-  category: keyof typeof MaterialCategory;
+  category: MaterialCategoryValue;
 };
 
 type ReceivingItemForm = {
@@ -68,12 +69,7 @@ export default function NewReceivingPage() {
       try {
         const res = await fetch("/api/materials");
         if (!res.ok) return;
-        const data = (await res.json()) as {
-          id: string;
-          name: string;
-          unit: string;
-          category: keyof typeof MaterialCategory;
-        }[];
+        const data = (await res.json()) as Material[];
         setMaterials(
           data.map((m) => ({
             id: m.id,
@@ -135,8 +131,7 @@ export default function NewReceivingPage() {
         .filter((i) => i.materialId && i.quantityReceived)
         .map((i) => {
           const material = materials.find((m) => m.id === i.materialId);
-          const isWet =
-            material?.category === MaterialCategory.WET || i.isWet;
+          const isWet = material?.category === "WET" || i.isWet;
 
           const inspection: Record<string, unknown> = {};
           if (isWet) {
@@ -316,9 +311,7 @@ export default function NewReceivingPage() {
                     const material = materials.find(
                       (m) => m.id === item.materialId,
                     );
-                    const isWet =
-                      material?.category === MaterialCategory.WET ||
-                      item.isWet;
+                    const isWet = material?.category === "WET" || item.isWet;
 
                     return (
                       <tr key={index} className="border-b last:border-0">
@@ -346,7 +339,7 @@ export default function NewReceivingPage() {
                           </select>
                           <div className="text-[10px] text-slate-500">
                             {material
-                              ? material.category === MaterialCategory.WET
+                              ? material.category === "WET"
                                 ? "Bahan Basah"
                                 : "Bahan Kering"
                               : "-"}
